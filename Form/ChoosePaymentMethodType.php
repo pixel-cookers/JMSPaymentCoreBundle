@@ -9,7 +9,6 @@ use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -30,7 +29,7 @@ class ChoosePaymentMethodType extends AbstractType
             throw new \InvalidArgumentException('There is no payment method available. Did you forget to register concrete payment provider bundles such as JMSPaymentPaypalBundle?');
         }
 
-        $this->transformer = $transformer
+        $this->transformer = $transformer;
         $this->pluginController = $pluginController;
         $this->paymentMethods = $paymentMethods;
     }
@@ -68,7 +67,9 @@ class ChoosePaymentMethodType extends AbstractType
             $self->validate($form, $options);
         });
 
-        $builder->addModelTransformer($this->transformer, true);
+        $self->transformer->setOptions($options);
+
+        $builder->addModelTransformer($self->transformer, true);
     }
 
     

@@ -36,7 +36,7 @@ class JMSPaymentCoreExtension extends Extension
 
         $configuration = new Configuration();
         $processor = new Processor();
-        $config = $processor->process($configuration->getConfigTree(), $configs);
+        $config = $processor->processConfiguration($configuration, $configs);
 
         if (isset($config['secret'])) {
             $container->setParameter('payment.encryption_service.secret', $config['secret']);

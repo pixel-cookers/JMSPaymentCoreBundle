@@ -9,7 +9,20 @@ use JMS\Payment\CoreBundle\Entity\PaymentInstruction;
 
 class EntityChoosePaymentMethodTransformer implements DataTransformerInterface
 {
-    public function transform($data, array $options)
+   /**
+     * @var array
+     */
+    protected $options;
+
+    /**
+     * @param array $options
+     */
+    public function setOptions(array $options) 
+    {
+        $this->options = $options;
+    }
+
+    public function transform($data)
     {
         if (null === $data) {
             return null;
@@ -18,8 +31,8 @@ class EntityChoosePaymentMethodTransformer implements DataTransformerInterface
         if ($data instanceof PaymentInstruction) {
             $method = $data->getPaymentSystemName();
             $methodData = array_map(function($v) { return $v[0]; }, $data->getExtendedData()->all());
-            if (isset($options['predefined_data'][$method])) {
-                $methodData = array_diff_key($methodData, $options['predefined_data'][$method]);
+            if (isset($this->options['predefined_data'][$method])) {
+                $methodData = array_diff_key($methodData, $this->options['predefined_data'][$method]);
             }
 
             return array(
@@ -31,7 +44,7 @@ class EntityChoosePaymentMethodTransformer implements DataTransformerInterface
         throw new \RuntimeException(sprintf('Unsupported data of type "%s".', ('object' === $type = gettype($data)) ? get_class($data) : $type));
     }
 
-    public function reverseTransform($data, array $options)
+    public function reverseTransform($data)
     {
         $method = isset($data['method']) ? $data['method'] : null;
         $data = isset($data['data_'.$method]) ? $data['data_'.$method] : array();
@@ -41,16 +54,16 @@ class EntityChoosePaymentMethodTransformer implements DataTransformerInterface
             $extendedData->set($k, $v);
         }
 
-        if (isset($options['predefined_data'][$method])) {
-            if (!is_array($options['predefined_data'][$method])) {
-                throw new \RuntimeException(sprintf('"predefined_data" is expected to be an array for each method, but got "%s" for method "%s".', json_encode($options['extra_data'][$method]), $method));
+        if (isset($this->options['predefined_data'][$method])) {
+            if (!is_array($this->options['predefined_data'][$method])) {
+                throw new \RuntimeException(sprintf('"predefined_data" is expected to be an array for each method, but got "%s" for method "%s".', json_encode($this->options['extra_data'][$method]), $method));
             }
 
-            foreach ($options['predefined_data'][$method] as $k => $v) {
+            foreach ($this->options['predefined_data'][$method] as $k => $v) {
                 $extendedData->set($k, $v);
             }
         }
 
-        return new PaymentInstruction($options['amount'], $options['currency'], $method, $extendedData);
+        return new PaymentInstruction($this->options['amount'], $this->options['currency'], $method, $extendedData);
     }
 }

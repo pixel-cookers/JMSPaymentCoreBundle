@@ -10,13 +10,25 @@ use JMS\Payment\CoreBundle\Propel\PaymentInstruction;
 class PropelChoosePaymentMethodTransformer implements DataTransformerInterface
 {
     /**
+     * @var array
+     */
+    protected $options;
+
+    /**
+     * @param array $options
+     */
+    public function setOptions(array $options) 
+    {
+        $this->options = $options;
+    }
+
+    /**
      * @param PaymentInstruction $data
-     * @param array              $options
      *
      * @return null
      * @throws \RuntimeException
      */
-    public function transform($data, array $options)
+    public function transform($data)
     {
         if (null === $data) {
             return null;
@@ -25,8 +37,8 @@ class PropelChoosePaymentMethodTransformer implements DataTransformerInterface
         if ($data instanceof PaymentInstruction) {
             $method = $data->getPaymentSystemName();
             $methodData = array_map(function($v) { return $v[0]; }, $data->getExtendedData()->all());
-            if (isset($options['predefined_data'][$method])) {
-                $methodData = array_diff_key($methodData, $options['predefined_data'][$method]);
+            if (isset($this->options['predefined_data'][$method])) {
+                $methodData = array_diff_key($methodData, $this->options['predefined_data'][$method]);
             }
 
             return array(
@@ -40,12 +52,11 @@ class PropelChoosePaymentMethodTransformer implements DataTransformerInterface
 
     /**
      * @param array $data
-     * @param array $options
      *
      * @return \Up2green\PropelPaymentCoreBundle\Model\PaymentInstruction
      * @throws \RuntimeException
      */
-    public function reverseTransform($data, array $options)
+    public function reverseTransform($data)
     {
         $method = isset($data['method']) ? $data['method'] : null;
         $data = isset($data['data_'.$method]) ? $data['data_'.$method] : array();
@@ -55,19 +66,19 @@ class PropelChoosePaymentMethodTransformer implements DataTransformerInterface
             $extendedData->set($k, $v);
         }
 
-        if (isset($options['predefined_data'][$method])) {
-            if (!is_array($options['predefined_data'][$method])) {
-                throw new \RuntimeException(sprintf('"predefined_data" is expected to be an array for each method, but got "%s" for method "%s".', json_encode($options['extra_data'][$method]), $method));
+        if (isset($this->options['predefined_data'][$method])) {
+            if (!is_array($this->options['predefined_data'][$method])) {
+                throw new \RuntimeException(sprintf('"predefined_data" is expected to be an array for each method, but got "%s" for method "%s".', json_encode($this->options['extra_data'][$method]), $method));
             }
 
-            foreach ($options['predefined_data'][$method] as $k => $v) {
+            foreach ($this->options['predefined_data'][$method] as $k => $v) {
                 $extendedData->set($k, $v);
             }
         }
 
         $instruction = new PaymentInstruction();
-        $instruction->setAmount($options['amount']);
-        $instruction->setCurrency($options['currency']);
+        $instruction->setAmount($this->options['amount']);
+        $instruction->setCurrency($this->options['currency']);
         $instruction->setExtendedData($extendedData);
         $instruction->setPaymentSystemName($method);
 

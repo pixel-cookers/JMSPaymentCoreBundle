@@ -12,7 +12,7 @@
         <parameter key="payment.plugin_controller.entity.options.payment_instruction_class">JMS\Payment\CoreBundle\Entity\PaymentInstruction</parameter>
         <parameter key="payment.plugin_controller.entity.options.financial_transaction_class">JMS\Payment\CoreBundle\Entity\FinancialTransaction</parameter>
         <parameter key="payment.plugin_controller.entity.options.credit_class">JMS\Payment\CoreBundle\Entity\Credit</parameter>
-        <parameter key="payment.form.data_transformer.entity.choose_payment_method.class">JMS\Payment\CoreBundle\Form\DataTransformer\EntityChoosePaymentMethodTransformer</parameter>
+        <parameter key="payment.form.data_transformer.choose_payment_method.entity.class">JMS\Payment\CoreBundle\Form\DataTransformer\EntityChoosePaymentMethodTransformer</parameter>
         
         <!-- Propel -->
         <parameter key="payment.plugin_controller.propel.class">JMS\Payment\CoreBundle\PluginController\PropelPluginController</parameter>
@@ -21,7 +21,7 @@
         <parameter key="payment.plugin_controller.propel.options.payment_instruction_class">JMS\Payment\CoreBundle\Model\PaymentInstruction</parameter>
         <parameter key="payment.plugin_controller.propel.options.financial_transaction_class">JMS\Payment\CoreBundle\Model\FinancialTransaction</parameter>
         <parameter key="payment.plugin_controller.propel.options.credit_class">JMS\Payment\CoreBundle\Model\Credit</parameter>
-        <parameter key="payment.form.data_transformer.propel.choose_payment_method.class">JMS\Payment\CoreBundle\Form\DataTransformer\PropelChoosePaymentMethodTransformer</parameter>
+        <parameter key="payment.form.data_transformer.choose_payment_method.propel.class">JMS\Payment\CoreBundle\Form\DataTransformer\PropelChoosePaymentMethodTransformer</parameter>
         
         <!-- Common -->
         <parameter key="payment.form.choose_payment_method_type.class">JMS\Payment\CoreBundle\Form\ChoosePaymentMethodType</parameter>
@@ -46,6 +46,7 @@
             </argument>
             <argument type="service" id="event_dispatcher" />
         </service>
+        <service id="payment.form.data_transformer.choose_payment_method.entity" class="%payment.form.data_transformer.choose_payment_method.entity.class%" />
 
         <service id="payment.plugin_controller.propel" class="%payment.plugin_controller.propel.class%" public="false">
             <argument type="collection">
@@ -57,6 +58,7 @@
             </argument>
             <argument type="service" id="event_dispatcher" />
         </service>
+        <service id="payment.form.data_transformer.choose_payment_method.propel" class="%payment.form.data_transformer.choose_payment_method.propel.class%" />
 
         <service id="payment.encryption_service" class="%payment.encryption_service.class%">
             <argument>%payment.encryption_service.secret%</argument>
