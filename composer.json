@@ -27,9 +27,10 @@
         "symfony/process": "*",
         "symfony/yaml": "*",
         "sensio/framework-extra-bundle": "*",
+        "propel/propel-bundle": "*",
+        "jms/payment-paypal-bundle": "dev-master",
         "doctrine/doctrine-bundle": "*",
         "doctrine/orm": "*",
-        "jms/payment-paypal-bundle": "*@dev",
         "jms/aop-bundle": "*",
         "jms/di-extra-bundle": "*"
     },
