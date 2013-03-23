@@ -1,8 +1,8 @@
 <?php
 
-namespace Up2green\PropelPaymentCoreBundle\Model;
+namespace JMS\Payment\CoreBundle\Propel;
 
-use Up2green\PropelPaymentCoreBundle\Model\om\BaseCreditQuery;
+use JMS\Payment\CoreBundle\Propel\om\BaseCreditQuery;
 
 class CreditQuery extends BaseCreditQuery
 {

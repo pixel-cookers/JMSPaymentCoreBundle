@@ -1,6 +1,7 @@
 imports:
     - { resource: framework.yml }
     - { resource: doctrine.yml }
+    - { resource: propel.yml }
     - { resource: twig.yml }
 
 jms_payment_core:

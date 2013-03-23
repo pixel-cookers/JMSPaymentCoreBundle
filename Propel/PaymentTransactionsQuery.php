@@ -1,8 +1,8 @@
 <?php
 
-namespace Up2green\PropelPaymentCoreBundle\Model;
+namespace JMS\Payment\CoreBundle\Propel;
 
-use Up2green\PropelPaymentCoreBundle\Model\om\BasePaymentTransactionsQuery;
+use JMS\Payment\CoreBundle\Propel\om\BasePaymentTransactionsQuery;
 
 class PaymentTransactionsQuery extends BasePaymentTransactionsQuery
 {

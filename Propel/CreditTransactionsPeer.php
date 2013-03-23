@@ -1,8 +1,8 @@
 <?php
 
-namespace Up2green\PropelPaymentCoreBundle\Model;
+namespace JMS\Payment\CoreBundle\Propel;
 
-use Up2green\PropelPaymentCoreBundle\Model\om\BaseCreditTransactionsPeer;
+use JMS\Payment\CoreBundle\Propel\om\BaseCreditTransactionsPeer;
 
 class CreditTransactionsPeer extends BaseCreditTransactionsPeer
 {

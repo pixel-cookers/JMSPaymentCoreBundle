@@ -1,9 +1,9 @@
 <?php
 
-namespace Up2green\PropelPaymentCoreBundle\Model;
+namespace JMS\Payment\CoreBundle\Propel;
 
 use JMS\Payment\CoreBundle\Model\FinancialTransactionInterface;
-use Up2green\PropelPaymentCoreBundle\Model\om\BaseFinancialTransaction;
+use JMS\Payment\CoreBundle\Propel\om\BaseFinancialTransaction;
 
 /**
  * Financial transaction entity
@@ -58,6 +58,10 @@ class FinancialTransaction extends BaseFinancialTransaction implements Financial
 
     public function getTransactionType()
     {
+        if (null === parent::getTransactionType()) {
+            return null;
+        }
+
         $constantName = strtoupper(parent::getTransactionType());
         $constantName = str_replace('-', '_', $constantName);
 

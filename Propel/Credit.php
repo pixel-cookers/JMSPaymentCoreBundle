@@ -1,16 +1,25 @@
 <?php
 
-namespace Up2green\PropelPaymentCoreBundle\Model;
+namespace JMS\Payment\CoreBundle\Propel;
 
 use JMS\Payment\CoreBundle\Model\FinancialTransactionInterface;
+use JMS\Payment\CoreBundle\Model\PaymentInstructionInterface;
 use JMS\Payment\CoreBundle\Model\CreditInterface;
-use Up2green\PropelPaymentCoreBundle\Model\om\BaseCredit;
+use JMS\Payment\CoreBundle\Propel\om\BaseCredit;
 
 /**
  * Credit entity
  */
 class Credit extends BaseCredit implements CreditInterface
 {
+    public function __construct(PaymentInstructionInterface $paymentInstruction, $amount)
+    {
+        parent::__construct();
+
+        $this->setPaymentInstruction($paymentInstruction);
+        $this->setTargetAmount($amount);
+    }
+
     /**
      * @return FinancialTransactionInterface
      */
@@ -45,7 +54,7 @@ class Credit extends BaseCredit implements CreditInterface
     public function getReverseCreditTransactions()
     {
         $criteria = new \Criteria();
-        $criteria->add('transactionType', FinancialTransactionInterface::TRANSACTION_TYPE_REVERSE_CREDIT);
+        $criteria->add('transaction_type', 'reverse-credit');
 
         return $this->getFinancialTransactions($criteria);
     }

@@ -1,10 +1,10 @@
 <?php
 
-namespace Up2green\PropelPaymentCoreBundle\Model;
+namespace JMS\Payment\CoreBundle\Propel;
 
 use JMS\Payment\CoreBundle\Model\FinancialTransactionInterface;
 use JMS\Payment\CoreBundle\Model\PaymentInterface;
-use Up2green\PropelPaymentCoreBundle\Model\om\BasePayment;
+use JMS\Payment\CoreBundle\Propel\om\BasePayment;
 
 class Payment extends BasePayment implements PaymentInterface
 {

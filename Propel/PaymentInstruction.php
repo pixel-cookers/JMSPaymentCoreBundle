@@ -1,14 +1,14 @@
 <?php
 
-namespace Up2green\PropelPaymentCoreBundle\Model;
+namespace JMS\Payment\CoreBundle\Propel;
 
 use JMS\Payment\CoreBundle\Model\PaymentInstructionInterface;
-use Up2green\PropelPaymentCoreBundle\Model\om\BasePaymentInstruction;
+use JMS\Payment\CoreBundle\Propel\om\BasePaymentInstruction;
 
 class PaymentInstruction extends BasePaymentInstruction implements PaymentInstructionInterface
 {
     /**
-     * @return Up2green\PropelPaymentCoreBundle\Model\FinancialTransaction
+     * @return JMS\Payment\CoreBundle\Propel\FinancialTransaction
      */
     public function getPendingTransaction()
     {

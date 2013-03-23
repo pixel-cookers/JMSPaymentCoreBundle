@@ -1,9 +1,9 @@
 <?php
 
-namespace Up2green\PropelPaymentCoreBundle\Model;
+namespace JMS\Payment\CoreBundle\Propel;
 
 use JMS\Payment\CoreBundle\Model\ExtendedDataInterface;
-use Up2green\PropelPaymentCoreBundle\Model\om\BaseExtendedData;
+use JMS\Payment\CoreBundle\Propel\om\BaseExtendedData;
 
 /**
  * Extended data entity
