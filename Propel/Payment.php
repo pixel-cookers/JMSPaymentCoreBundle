@@ -8,6 +8,14 @@ use JMS\Payment\CoreBundle\Propel\om\BasePayment;
 
 class Payment extends BasePayment implements PaymentInterface
 {
+    public function __construct(PaymentInstruction $paymentInstruction, $amount)
+    {
+        parent::__construct();
+
+        $this->setTargetAmount($amount);
+        $this->setPaymentInstruction($paymentInstruction);
+    }
+
     /**
      * @return FinancialTransactionInterface
      */
@@ -30,10 +38,15 @@ class Payment extends BasePayment implements PaymentInterface
      */
     public function getDepositTransactions()
     {
-        $criteria = new \Criteria();
-        $criteria->add('transactionType', FinancialTransactionInterface::TRANSACTION_TYPE_DEPOSIT);
+        $objects = new \PropelObjectCollection();
 
-        return $this->getFinancialTransactions($criteria);
+        foreach ($this->getFinancialTransactions() as $transaction) {
+            if ($transaction->getTransactionType() === FinancialTransactionInterface::TRANSACTION_TYPE_DEPOSIT) {
+                $objects->append($transaction);
+            }
+        }
+
+        return $objects;
     }
 
     /**
@@ -63,10 +76,15 @@ class Payment extends BasePayment implements PaymentInterface
      */
     public function getReverseApprovalTransactions()
     {
-        $criteria = new \Criteria();
-        $criteria->add('transactionType', FinancialTransactionInterface::TRANSACTION_TYPE_REVERSE_APPROVAL);
+        $objects = new \PropelObjectCollection();
 
-        return $this->getFinancialTransactions($criteria);
+        foreach ($this->getFinancialTransactions() as $transaction) {
+            if ($transaction->getTransactionType() === FinancialTransactionInterface::TRANSACTION_TYPE_REVERSE_APPROVAL) {
+                $objects->append($transaction);
+            }
+        }
+
+        return $objects;
     }
 
     /**
@@ -74,10 +92,15 @@ class Payment extends BasePayment implements PaymentInterface
      */
     public function getReverseDepositTransactions()
     {
-        $criteria = new \Criteria();
-        $criteria->add('transactionType', FinancialTransactionInterface::TRANSACTION_TYPE_REVERSE_DEPOSIT);
+        $objects = new \PropelObjectCollection();
 
-        return $this->getFinancialTransactions($criteria);
+        foreach ($this->getFinancialTransactions() as $transaction) {
+            if ($transaction->getTransactionType() === FinancialTransactionInterface::TRANSACTION_TYPE_REVERSE_DEPOSIT) {
+                $objects->append($transaction);
+            }
+        }
+
+        return $objects;
     }
 
     /**
@@ -93,6 +116,10 @@ class Payment extends BasePayment implements PaymentInterface
      */
     public function isExpired()
     {
+        if (null !== $this->getExpirationDate()) {
+            $this->setExpired($this->getExpirationDate()->getTimestamp() < time());
+        }
+
         return $this->getExpired();
     }
 
@@ -100,28 +127,28 @@ class Payment extends BasePayment implements PaymentInterface
     {
         switch ($state) {
             case PaymentInterface::STATE_APPROVED :
-                parent::setState('approved');
+                parent::setState(PaymentPeer::STATE_APPROVED);
                 break;
             case PaymentInterface::STATE_APPROVING :
-                parent::setState('approving');
+                parent::setState(PaymentPeer::STATE_APPROVING);
                 break;
             case PaymentInterface::STATE_CANCELED :
-                parent::setState('canceled');
+                parent::setState(PaymentPeer::STATE_CANCELED);
                 break;
             case PaymentInterface::STATE_DEPOSITED :
-                parent::setState('deposited');
+                parent::setState(PaymentPeer::STATE_DEPOSITED);
                 break;
             case PaymentInterface::STATE_DEPOSITING :
-                parent::setState('depositing');
+                parent::setState(PaymentPeer::STATE_DEPOSITING);
                 break;
             case PaymentInterface::STATE_EXPIRED :
-                parent::setState('expired');
+                parent::setState(PaymentPeer::STATE_EXPIRED);
                 break;
             case PaymentInterface::STATE_FAILED :
-                parent::setState('failed');
+                parent::setState(PaymentPeer::STATE_FAILED);
                 break;
             case PaymentInterface::STATE_NEW :
-                parent::setState('new');
+                parent::setState(PaymentPeer::STATE_NEW);
                 break;
             default:
                 parent::setState($state);
@@ -136,6 +163,10 @@ class Payment extends BasePayment implements PaymentInterface
 
     public function getState()
     {
+        if (null === parent::getState()) {
+            return null;
+        }
+
         return constant('JMS\Payment\CoreBundle\Model\PaymentInterface::STATE_'.strtoupper(parent::getState()));
     }
 }

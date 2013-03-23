@@ -12,7 +12,6 @@ class FinancialTransaction extends BaseFinancialTransaction implements Financial
 {
     public function getExtendedData(PropelPDO $con = null, $doQuery = true)
     {
-
         if (null !== ($data = parent::getExtendedData($con, $doQuery))) {
             return $data;
         }
@@ -30,25 +29,25 @@ class FinancialTransaction extends BaseFinancialTransaction implements Financial
     {
         switch ($transactionType) {
             case FinancialTransactionInterface::TRANSACTION_TYPE_APPROVE :
-                parent::setTransactionType('approve');
+                parent::setTransactionType(FinancialTransactionPeer::TRANSACTION_TYPE_APPROVE);
                 break;
             case FinancialTransactionInterface::TRANSACTION_TYPE_APPROVE_AND_DEPOSIT :
-                parent::setTransactionType('approve-and-deposit');
+                parent::setTransactionType(FinancialTransactionPeer::TRANSACTION_TYPE_APPROVE_AND_DEPOSIT);
                 break;
             case FinancialTransactionInterface::TRANSACTION_TYPE_CREDIT :
-                parent::setTransactionType('credit');
+                parent::setTransactionType(FinancialTransactionPeer::TRANSACTION_TYPE_CREDIT);
                 break;
             case FinancialTransactionInterface::TRANSACTION_TYPE_DEPOSIT :
-                parent::setTransactionType('deposit');
+                parent::setTransactionType(FinancialTransactionPeer::TRANSACTION_TYPE_DEPOSIT);
                 break;
             case FinancialTransactionInterface::TRANSACTION_TYPE_REVERSE_APPROVAL :
-                parent::setTransactionType('reverse-approval');
+                parent::setTransactionType(FinancialTransactionPeer::TRANSACTION_TYPE_REVERSE_APPROVAL);
                 break;
             case FinancialTransactionInterface::TRANSACTION_TYPE_REVERSE_CREDIT :
-                parent::setTransactionType('reverse-credit');
+                parent::setTransactionType(FinancialTransactionPeer::TRANSACTION_TYPE_REVERSE_CREDIT);
                 break;
             case FinancialTransactionInterface::TRANSACTION_TYPE_REVERSE_DEPOSIT :
-                parent::setTransactionType('reverse-deposit');
+                parent::setTransactionType(FinancialTransactionPeer::TRANSACTION_TYPE_REVERSE_DEPOSIT);
                 break;
             default:
                 parent::setTransactionType($transactionType);
@@ -72,19 +71,19 @@ class FinancialTransaction extends BaseFinancialTransaction implements Financial
     {
         switch ($state) {
             case FinancialTransactionInterface::STATE_CANCELED :
-                parent::setState('canceled');
+                parent::setState(FinancialTransactionPeer::STATE_CANCELED);
                 break;
             case FinancialTransactionInterface::STATE_FAILED :
-                parent::setState('failed');
+                parent::setState(FinancialTransactionPeer::STATE_FAILED);
                 break;
             case FinancialTransactionInterface::STATE_NEW :
-                parent::setState('new');
+                parent::setState(FinancialTransactionPeer::STATE_NEW);
                 break;
             case FinancialTransactionInterface::STATE_PENDING :
-                parent::setState('pending');
+                parent::setState(FinancialTransactionPeer::STATE_PENDING);
                 break;
             case FinancialTransactionInterface::STATE_SUCCESS :
-                parent::setState('success');
+                parent::setState(FinancialTransactionPeer::STATE_SUCCESS);
                 break;
             default:
                 parent::setState($state);

@@ -7,6 +7,48 @@ use JMS\Payment\CoreBundle\Propel\om\BasePaymentInstruction;
 
 class PaymentInstruction extends BasePaymentInstruction implements PaymentInstructionInterface
 {
+    public function __construct($amount, $currency, $paymentSystemName, ExtendedData $data = null)
+    {
+        parent::__construct();
+
+        if (null === $data) {
+            $data = new ExtendedData();
+        }
+
+        $this->setAmount($amount);
+        $this->setCurrency($currency);
+        $this->setExtendedData($data);
+        $this->setPaymentSystemName($paymentSystemName);
+    }
+
+    /**
+     * This method adds a Credit container to this PaymentInstruction.
+     *
+     * @param Credit $credit
+     */
+    public function addCredit(Credit $credit)
+    {
+        if ($credit->getPaymentInstruction() !== $this) {
+            throw new \InvalidArgumentException('This credit container belongs to another instruction.');
+        }
+
+        parent::addCredit($credit);
+    }
+
+    /**
+     * This method adds a Payment container to this PaymentInstruction.
+     *
+     * @param Payment $payment
+     */
+    public function addPayment(Payment $payment)
+    {
+        if ($payment->getPaymentInstruction() !== $this) {
+            throw new \InvalidArgumentException('This payment container belongs to another instruction.');
+        }
+
+        parent::addPayment($payment);
+    }
+
     /**
      * @return JMS\Payment\CoreBundle\Propel\FinancialTransaction
      */
@@ -39,16 +81,16 @@ class PaymentInstruction extends BasePaymentInstruction implements PaymentInstru
     {
         switch ($state) {
             case PaymentInstructionInterface::STATE_CLOSED :
-                parent::setState('closed');
+                parent::setState(PaymentInstructionPeer::STATE_CLOSED);
                 break;
             case PaymentInstructionInterface::STATE_INVALID :
-                parent::setState('invalid');
+                parent::setState(PaymentInstructionPeer::STATE_INVALID);
                 break;
             case PaymentInstructionInterface::STATE_NEW :
-                parent::setState('new');
+                parent::setState(PaymentInstructionPeer::STATE_NEW);
                 break;
             case PaymentInstructionInterface::STATE_VALID :
-                parent::setState('valid');
+                parent::setState(PaymentInstructionPeer::STATE_VALID);
                 break;
             default:
                 parent::setState($state);
@@ -58,6 +100,10 @@ class PaymentInstruction extends BasePaymentInstruction implements PaymentInstru
 
     public function getState()
     {
+        if (null === parent::getState()) {
+            return null;
+        }
+
         return constant('JMS\Payment\CoreBundle\Model\PaymentInstructionInterface::STATE_'.strtoupper(parent::getState()));
     }
 }

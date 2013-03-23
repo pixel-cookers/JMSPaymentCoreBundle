@@ -28,6 +28,22 @@ class ExtendedData extends BaseExtendedData implements ExtendedDataInterface
 
     /**
      * @param string $name
+     *
+     * @return boolean
+     */
+    public function mayBePersisted($name)
+    {
+        if (!$this->has($name)) {
+            throw new \InvalidArgumentException(sprintf('There is no data with key "%s".', $name));
+        }
+
+        $datas = $this->all();
+
+        return $datas[$name][2];
+    }
+
+    /**
+     * @param string $name
      */
     public function remove($name)
     {
