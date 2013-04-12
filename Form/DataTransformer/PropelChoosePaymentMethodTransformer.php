@@ -17,7 +17,7 @@ class PropelChoosePaymentMethodTransformer implements DataTransformerInterface
     /**
      * @param array $options
      */
-    public function setOptions(array $options) 
+    public function setOptions(array $options)
     {
         $this->options = $options;
     }
@@ -53,7 +53,7 @@ class PropelChoosePaymentMethodTransformer implements DataTransformerInterface
     /**
      * @param array $data
      *
-     * @return \Up2green\PropelPaymentCoreBundle\Model\PaymentInstruction
+     * @return \JMS\Payment\CoreBundle\Model\PaymentInstruction
      * @throws \RuntimeException
      */
     public function reverseTransform($data)
