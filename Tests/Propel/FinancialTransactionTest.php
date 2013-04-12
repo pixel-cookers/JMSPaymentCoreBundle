@@ -3,6 +3,9 @@
 namespace JMS\Payment\CoreBundle\Tests\Propel;
 
 use JMS\Payment\CoreBundle\Propel\FinancialTransaction;
+use JMS\Payment\CoreBundle\Propel\Credit;
+use JMS\Payment\CoreBundle\Propel\ExtendedData;
+use JMS\Payment\CoreBundle\Propel\Payment;
 
 class FinancialTransactionTest extends \PHPUnit_Framework_TestCase
 {
@@ -18,7 +21,6 @@ class FinancialTransactionTest extends \PHPUnit_Framework_TestCase
         $transaction = new FinancialTransaction();
         
         $this->assertEquals(FinancialTransaction::STATE_NEW, $transaction->getState());
-        // $this->assertTrue(time() - $transaction->getCreatedAt()->getTimestamp() < 5);
         $this->assertNull($transaction->getId());
         $this->assertEquals(0.0, $transaction->getProcessedAmount());
         $this->assertEquals(0.0, $transaction->getRequestedAmount());
@@ -26,8 +28,8 @@ class FinancialTransactionTest extends \PHPUnit_Framework_TestCase
     
     public function testSetGetCredit()
     {
-        $transaction = new FinancialTransaction;
-        $credit = $this->getMock('JMS\Payment\CoreBundle\Model\CreditInterface');
+        $transaction = new FinancialTransaction();
+        $credit = new Credit();
         
         $this->assertNull($transaction->getCredit());
         $transaction->setCredit($credit);
@@ -36,8 +38,8 @@ class FinancialTransactionTest extends \PHPUnit_Framework_TestCase
     
     public function testSetGetExtendedData()
     {
-        $transaction = new FinancialTransaction;
-        $extendedData = $this->getMock('JMS\Payment\CoreBundle\Model\ExtendedDataInterface');
+        $transaction = new FinancialTransaction();
+        $extendedData = new ExtendedData();
         
         $this->assertNull($transaction->getExtendedData());
         $transaction->setExtendedData($extendedData);
@@ -46,8 +48,8 @@ class FinancialTransactionTest extends \PHPUnit_Framework_TestCase
     
     public function testSetGetPayment()
     {
-        $transaction = new FinancialTransaction;
-        $payment = $this->getMock('JMS\Payment\CoreBundle\Model\PaymentInterface');
+        $transaction = new FinancialTransaction();
+        $payment = new Payment();
         
         $this->assertNull($transaction->getPayment());
         $transaction->setPayment($payment);
@@ -56,7 +58,7 @@ class FinancialTransactionTest extends \PHPUnit_Framework_TestCase
     
     public function testSetGetProcessedAmount()
     {
-        $transaction = new FinancialTransaction;
+        $transaction = new FinancialTransaction();
         
         $this->assertEquals(0.0, $transaction->getProcessedAmount());
         $transaction->setProcessedAmount(1.2345);
@@ -65,7 +67,7 @@ class FinancialTransactionTest extends \PHPUnit_Framework_TestCase
     
     public function testSetGetReasonCode()
     {
-        $transaction = new FinancialTransaction;
+        $transaction = new FinancialTransaction();
         
         $this->assertNull($transaction->getReasonCode());
         $transaction->setReasonCode('foo');
@@ -74,7 +76,7 @@ class FinancialTransactionTest extends \PHPUnit_Framework_TestCase
     
     public function testSetGetReferenceNumber()
     {
-        $transaction = new FinancialTransaction;
+        $transaction = new FinancialTransaction();
         
         $this->assertNull($transaction->getReferenceNumber());
         $transaction->setReferenceNumber('foo');
@@ -83,7 +85,7 @@ class FinancialTransactionTest extends \PHPUnit_Framework_TestCase
     
     public function testSetGetRequestedAmount()
     {
-        $transaction = new FinancialTransaction;
+        $transaction = new FinancialTransaction();
         
         $this->assertEquals(0.0, $transaction->getRequestedAmount());
         $transaction->setRequestedAmount(1.2345);
@@ -92,7 +94,7 @@ class FinancialTransactionTest extends \PHPUnit_Framework_TestCase
     
     public function testSetGetResponseCode()
     {
-        $transaction = new FinancialTransaction;
+        $transaction = new FinancialTransaction();
         
         $this->assertNull($transaction->getResponseCode());
         $transaction->setResponseCode('foo');
@@ -101,7 +103,7 @@ class FinancialTransactionTest extends \PHPUnit_Framework_TestCase
     
     public function testSetGetState()
     {
-        $transaction = new FinancialTransaction;
+        $transaction = new FinancialTransaction();
         
         $this->assertEquals(FinancialTransaction::STATE_NEW, $transaction->getState());
         $transaction->setState(FinancialTransaction::STATE_PENDING);

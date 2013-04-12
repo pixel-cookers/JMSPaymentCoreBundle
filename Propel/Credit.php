@@ -12,7 +12,7 @@ use JMS\Payment\CoreBundle\Propel\om\BaseCredit;
  */
 class Credit extends BaseCredit implements CreditInterface
 {
-    public function __construct(PaymentInstructionInterface $paymentInstruction, $amount)
+    public function __construct(PaymentInstructionInterface $paymentInstruction = null, $amount = 0.0)
     {
         parent::__construct();
 

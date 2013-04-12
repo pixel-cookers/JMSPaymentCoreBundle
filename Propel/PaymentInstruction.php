@@ -7,6 +7,18 @@ use JMS\Payment\CoreBundle\Propel\om\BasePaymentInstruction;
 
 class PaymentInstruction extends BasePaymentInstruction implements PaymentInstructionInterface
 {
+    public function __construct($amount, $currency, $paymentSystemName, ExtendedData $data = null)
+    {
+        if (null === $data) {
+            $data = new ExtendedData();
+        }
+
+        $this->setAmount($amount);
+        $this->setCurrency($currency);
+        $this->setExtendedData($data);
+        $this->setPaymentSystemName($paymentSystemName);
+    }
+
     /**
      * @return JMS\Payment\CoreBundle\Propel\FinancialTransaction
      */
