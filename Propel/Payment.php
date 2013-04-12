@@ -8,7 +8,7 @@ use JMS\Payment\CoreBundle\Propel\om\BasePayment;
 
 class Payment extends BasePayment implements PaymentInterface
 {
-    public function __construct(PaymentInstruction $paymentInstruction, $amount)
+    public function __construct(PaymentInstruction $paymentInstruction = null, $amount = 0.0)
     {
         parent::__construct();
 
