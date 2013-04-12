@@ -53,10 +53,15 @@ class Credit extends BaseCredit implements CreditInterface
      */
     public function getReverseCreditTransactions()
     {
-        $criteria = new \Criteria();
-        $criteria->add('transaction_type', 'reverse-credit');
+        $objects = new \PropelObjectCollection();
 
-        return $this->getFinancialTransactions($criteria);
+        foreach($this->getFinancialTransactions() as $transaction) {
+            if ($transaction->getTransactionType() === FinancialTransactionInterface::TRANSACTION_TYPE_REVERSE_CREDIT) {
+                $objects->append($transaction);
+            }
+        }
+
+        return $objects;
     }
 
     /**

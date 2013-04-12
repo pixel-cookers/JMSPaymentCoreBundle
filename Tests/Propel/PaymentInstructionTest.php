@@ -27,9 +27,9 @@ class PaymentInstructionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $instruction->getPaymentSystemName());
         $this->assertSame($data, $instruction->getExtendedData());
         $this->assertSame(FinancialTransaction::STATE_NEW, $instruction->getState());
-        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $instruction->getCredits());
+        $this->assertInstanceOf('PropelObjectCollection', $instruction->getCredits());
         $this->assertEquals(0, count($instruction->getCredits()));
-        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $instruction->getPayments());
+        $this->assertInstanceOf('PropelObjectCollection', $instruction->getPayments());
         $this->assertEquals(0, count($instruction->getPayments()));
         $this->assertEquals(0.0, $instruction->getApprovingAmount());
         $this->assertEquals(0.0, $instruction->getApprovedAmount());
@@ -41,7 +41,6 @@ class PaymentInstructionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0.0, $instruction->getReversingCreditedAmount());
         $this->assertEquals(0.0, $instruction->getReversingDepositedAmount());
         $this->assertNull($instruction->getId());
-        $this->assertTrue(time() - $instruction->getCreatedAt()->getTimestamp() < 10);
         $this->assertNull($instruction->getUpdatedAt());
     }
 
@@ -95,19 +94,6 @@ class PaymentInstructionTest extends \PHPUnit_Framework_TestCase
         $instruction2->addPayment($payment);
     }
 
-    public function testOnPrePersist()
-    {
-        $instruction = $this->getInstruction();
-        $reflection = new \ReflectionProperty($instruction, 'id');
-        $reflection->setAccessible(true);
-        $reflection->setValue($instruction, 1234);
-
-        $this->assertNull($instruction->getUpdatedAt());
-        $instruction->onPreSave();
-        $this->assertInstanceOf('\DateTime', $instruction->getUpdatedAt());
-        $this->assertTrue(time() - $instruction->getUpdatedAt()->getTimestamp() < 10);
-    }
-
     public function testGetPendingTransactionOnPayment()
     {
         $instruction = $this->getInstruction();
@@ -130,7 +116,7 @@ class PaymentInstructionTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($instruction->getPendingTransaction());
 
         $transaction = new FinancialTransaction();
-        $credit->addTransaction($transaction);
+        $credit->addFinancialTransaction($transaction);
         $transaction->setState(FinancialTransaction::STATE_PENDING);
 
         $this->assertSame($transaction, $instruction->getPendingTransaction());
@@ -158,7 +144,7 @@ class PaymentInstructionTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($instruction->hasPendingTransaction());
 
         $transaction = new FinancialTransaction;
-        $credit->addTransaction($transaction);
+        $credit->addFinancialTransaction($transaction);
         $transaction->setState(FinancialTransaction::STATE_PENDING);
 
         $this->assertTrue($instruction->hasPendingTransaction());
@@ -201,14 +187,6 @@ class PaymentInstructionTest extends \PHPUnit_Framework_TestCase
             array('ReversingDepositedAmount', 5365, 0.0),
             array('State', PaymentInstruction::STATE_INVALID, PaymentInstruction::STATE_NEW),
         );
-    }
-
-    public function testChangesToExtendedDataCanBeMadeAfterCreation()
-    {
-        $instruction = new PaymentInstruction(123, 'EUR', 'foo', $data = new ExtendedData());
-        $instruction->getExtendedData()->set('foo', 'bar');
-        $instruction->onPreSave();
-        $this->assertNotSame($data, $instruction->getExtendedData());
     }
 
     protected function getInstruction()
