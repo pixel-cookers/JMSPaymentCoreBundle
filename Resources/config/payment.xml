@@ -17,10 +17,10 @@
         <!-- Propel -->
         <parameter key="payment.plugin_controller.propel.class">JMS\Payment\CoreBundle\PluginController\PropelPluginController</parameter>
         <parameter key="payment.plugin_controller.propel.options.result_class">JMS\Payment\CoreBundle\PluginController\Result</parameter>
-        <parameter key="payment.plugin_controller.propel.options.payment_class">JMS\Payment\CoreBundle\Model\Payment</parameter>
-        <parameter key="payment.plugin_controller.propel.options.payment_instruction_class">JMS\Payment\CoreBundle\Model\PaymentInstruction</parameter>
-        <parameter key="payment.plugin_controller.propel.options.financial_transaction_class">JMS\Payment\CoreBundle\Model\FinancialTransaction</parameter>
-        <parameter key="payment.plugin_controller.propel.options.credit_class">JMS\Payment\CoreBundle\Model\Credit</parameter>
+        <parameter key="payment.plugin_controller.propel.options.payment_class">JMS\Payment\CoreBundle\Propel\Payment</parameter>
+        <parameter key="payment.plugin_controller.propel.options.payment_instruction_class">JMS\Payment\CoreBundle\Propel\PaymentInstruction</parameter>
+        <parameter key="payment.plugin_controller.propel.options.financial_transaction_class">JMS\Payment\CoreBundle\Propel\FinancialTransaction</parameter>
+        <parameter key="payment.plugin_controller.propel.options.credit_class">JMS\Payment\CoreBundle\Propel\Credit</parameter>
         <parameter key="payment.form.data_transformer.choose_payment_method.propel.class">JMS\Payment\CoreBundle\Form\DataTransformer\PropelChoosePaymentMethodTransformer</parameter>
         
         <!-- Common -->

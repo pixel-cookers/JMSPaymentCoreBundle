@@ -2,9 +2,6 @@
 
 namespace JMS\Payment\CoreBundle\PluginController;
 
-use JMS\Payment\CoreBundle\Model\Payment;
-use JMS\Payment\CoreBundle\Model\PaymentInstruction;
-
 use JMS\Payment\CoreBundle\Model\PaymentInstructionInterface;
 use JMS\Payment\CoreBundle\Model\PaymentInterface;
 use JMS\Payment\CoreBundle\Plugin\QueryablePluginInterface;
@@ -321,8 +318,8 @@ class PropelPluginController extends PluginController
 
     protected function createFinancialTransaction(PaymentInterface $payment)
     {
-        if (!$payment instanceof Payment) {
-            throw new Exception('This controller only supports Doctrine2 entities as Payment objects.');
+        if (!$payment instanceof $this->options['payment_class']) {
+            throw new Exception('This controller only supports Doctrine2 entities or Propel models as Payment objects.');
         }
 
         $class =& $this->options['financial_transaction_class'];
@@ -334,8 +331,8 @@ class PropelPluginController extends PluginController
 
     protected function doCreatePayment(PaymentInstructionInterface $instruction, $amount)
     {
-        if (!$instruction instanceof PaymentInstruction) {
-            throw new Exception('This controller only supports Doctrine2 entities as PaymentInstruction objects.');
+        if (!$instruction instanceof $this->options['payment_instruction_class']) {
+            throw new Exception('This controller only supports Doctrine2 entities or Propel models as PaymentInstruction objects.');
         }
 
         $class =& $this->options['payment_class'];
@@ -369,6 +366,6 @@ class PropelPluginController extends PluginController
      */
     protected function getConnection()
     {
-        return \Propel::getConnection(\JMS\Payment\CoreBundle\Model\PaymentPeer::DATABASE_NAME);
+        return \Propel::getConnection(\JMS\Payment\CoreBundle\Propel\PaymentPeer::DATABASE_NAME);
     }
 }

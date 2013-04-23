@@ -7,20 +7,6 @@ use JMS\Payment\CoreBundle\Propel\om\BasePaymentInstruction;
 
 class PaymentInstruction extends BasePaymentInstruction implements PaymentInstructionInterface
 {
-    public function __construct($amount, $currency, $paymentSystemName, ExtendedData $data = null)
-    {
-        parent::__construct();
-
-        if (null === $data) {
-            $data = new ExtendedData();
-        }
-
-        $this->setAmount($amount);
-        $this->setCurrency($currency);
-        $this->setExtendedData($data);
-        $this->setPaymentSystemName($paymentSystemName);
-    }
-
     /**
      * This method adds a Credit container to this PaymentInstruction.
      *
