@@ -23,27 +23,27 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class PaymentInstruction implements PaymentInstructionInterface
 {
-    private $account;
-    private $amount;
-    private $approvedAmount;
-    private $approvingAmount;
-    private $createdAt;
-    private $creditedAmount;
-    private $creditingAmount;
-    private $credits;
-    private $currency;
-    private $depositedAmount;
-    private $depositingAmount;
-    private $extendedData;
-    private $extendedDataOriginal;
-    private $id;
-    private $payments;
-    private $paymentSystemName;
-    private $reversingApprovedAmount;
-    private $reversingCreditedAmount;
-    private $reversingDepositedAmount;
-    private $state;
-    private $updatedAt;
+    protected $account;
+    protected $amount;
+    protected $approvedAmount;
+    protected $approvingAmount;
+    protected $createdAt;
+    protected $creditedAmount;
+    protected $creditingAmount;
+    protected $credits;
+    protected $currency;
+    protected $depositedAmount;
+    protected $depositingAmount;
+    protected $extendedData;
+    protected $extendedDataOriginal;
+    protected $id;
+    protected $payments;
+    protected $paymentSystemName;
+    protected $reversingApprovedAmount;
+    protected $reversingCreditedAmount;
+    protected $reversingDepositedAmount;
+    protected $state;
+    protected $updatedAt;
 
     public function __construct($amount, $currency, $paymentSystemName, ExtendedData $data = null)
     {
