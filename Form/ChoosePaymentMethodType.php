@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\CallbackValidator;
 use JMS\Payment\CoreBundle\PluginController\PluginControllerInterface;
-use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceList;
+// use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceList;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\AbstractType;
@@ -36,7 +36,7 @@ class ChoosePaymentMethodType extends AbstractType
         $this->paymentMethods = $paymentMethods;
     }
 
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilder $builder, array $options = null)
     {
         if (!isset($options['currency'])) {
             throw new \InvalidArgumentException(sprintf('The option "currency" must be given for form type "%s".', $this->getName()));
@@ -63,8 +63,9 @@ class ChoosePaymentMethodType extends AbstractType
         $builder->add('method', 'choice', array(
             'choices' => $this->buildChoices($options['available_methods']),
             'expanded' => true,
-            'index_strategy' => ChoiceList::COPY_CHOICE,
-            'value_strategy' => ChoiceList::COPY_CHOICE,
+            'data' => $options['default_method'],
+            // 'index_strategy' => ChoiceList::COPY_CHOICE,
+            // 'value_strategy' => ChoiceList::COPY_CHOICE,
         ));
 
         foreach ($options['available_methods'] as $method) {
@@ -162,8 +163,9 @@ class ChoosePaymentMethodType extends AbstractType
     public function getDefaultOptions(array $options)
     {
         return array(
-            'currency'        => null,
             'amount'          => null,
+            'currency'        => null,
+            'default_method'  => null,
             'predefined_data' => array(),
         );
     }
