@@ -1,9 +1,9 @@
-JMSPaymentCoreBundle
-====================
+JMSPaymentCoreBundle 2.0 support
+================================
 
-Documentation: 
+Documentation:
 [Resources/doc](http://jmsyst.com/bundles/JMSPaymentCoreBundle)
-    
+
 
 Code License:
 [Resources/meta/LICENSE](https://github.com/schmittjoh/JMSPaymentCoreBundle/blob/master/Resources/meta/LICENSE)
