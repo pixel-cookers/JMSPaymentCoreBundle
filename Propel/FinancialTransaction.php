@@ -10,7 +10,7 @@ use JMS\Payment\CoreBundle\Propel\om\BaseFinancialTransaction;
  */
 class FinancialTransaction extends BaseFinancialTransaction implements FinancialTransactionInterface
 {
-    public function getExtendedData(PropelPDO $con = null, $doQuery = true)
+    public function getExtendedData(\PropelPDO $con = null, $doQuery = true)
     {
         if (null !== ($data = parent::getExtendedData($con, $doQuery))) {
             return $data;
